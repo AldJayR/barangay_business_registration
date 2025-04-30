@@ -1,0 +1,5 @@
+RewriteEngine On
+
+# Redirect all requests to the app/public directory
+RewriteRule ^$ app/public/ [L]
+RewriteRule ^(.*)$ app/public/$1 [L]
