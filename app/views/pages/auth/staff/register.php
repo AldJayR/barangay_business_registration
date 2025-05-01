@@ -62,7 +62,7 @@ require_once dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/core/func
                         <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
                         <input type="password"
                                class="form-control <?= isset($errors['password']) ? 'is-invalid' : ''; ?>"
-                               id="password"
+                               id="password-input"
                                name="password"
                                placeholder="Min. 6 characters"
                                required>
@@ -171,9 +171,12 @@ require_once dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/core/func
             </div>
 
             <!-- Submit Button -->
-            <div class="d-grid gap-2 mb-3">
-                <button type="submit" class="btn btn-primary btn-lg">
-                    <i class="bi bi-person-plus-fill me-2"></i>Register Staff
+            <div class="d-flex justify-content-between gap-2 mb-3">
+                <a href="<?= URLROOT ?>/admin/dashboard" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i>Back to Admin Dashboard
+                </a>
+                <button type="submit" class="btn btn-primary btn-sm">
+                    <i class="bi bi-person-plus-fill me-1"></i>Register Staff
                 </button>
             </div>
         </form>
@@ -183,7 +186,7 @@ require_once dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/core/func
 <script>
     // Toggle password visibility for password field
     document.getElementById('togglePassword').addEventListener('click', function() {
-        const passwordInput = document.getElementById('password');
+        const passwordInput = document.getElementById('password-input');
         const icon = this.querySelector('i');
         
         if (passwordInput.type === 'password') {

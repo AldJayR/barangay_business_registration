@@ -30,7 +30,7 @@
                                 <label for="receiptNumberFilter" class="form-label text-xs text-uppercase text-muted fw-semibold">Receipt Number</label>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text bg-white border-end-0">
-                                        <i class="fas fa-hashtag text-primary"></i>
+                                        <i class="bi bi-hash text-primary"></i>
                                     </span>
                                     <input type="text" id="receiptNumberFilter" class="form-control form-control-sm border-start-0 ps-0 shadow-none" placeholder="Search receipt number...">
                                 </div>
@@ -39,7 +39,7 @@
                                 <label for="dateFilter" class="form-label text-xs text-uppercase text-muted fw-semibold">Date Range</label>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text bg-white border-end-0">
-                                        <i class="fas fa-calendar-alt text-primary"></i>
+                                        <i class="bi bi-calendar text-primary"></i>
                                     </span>
                                     <select id="dateFilter" class="form-select form-select-sm border-start-0 ps-0 shadow-none">
                                         <option value="">All Time</option>
@@ -54,7 +54,7 @@
                                 <label for="businessFilter" class="form-label text-xs text-uppercase text-muted fw-semibold">Business Name</label>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text bg-white border-end-0">
-                                        <i class="fas fa-search text-primary"></i>
+                                        <i class="bi bi-search text-primary"></i>
                                     </span>
                                     <input type="text" id="businessFilter" class="form-control form-control-sm border-start-0 ps-0 shadow-none" placeholder="Search business...">
                                 </div>
@@ -78,7 +78,7 @@
                     <?php if(empty($data['receipts'])) : ?>
                         <div class="text-center p-5 my-4">
                             <div class="mb-3">
-                                <i class="fas fa-receipt fa-4x text-secondary opacity-50"></i>
+                                <i class="bi bi-receipt fa-4x text-secondary opacity-50"></i>
                             </div>
                             <h4 class="text-secondary mt-3">No receipts found</h4>
                             <p class="text-muted">No official receipts have been generated yet.</p>
@@ -129,20 +129,18 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <?php 
-                                                        $methodIcon = 'fa-money-bill';
-                                                        $methodClass = 'text-success';
-                                                        
-                                                        if(strtolower($receipt->payment_method) == 'gcash') {
-                                                            $methodIcon = 'fa-mobile-alt';
-                                                            $methodClass = 'text-info';
-                                                        } elseif(strtolower($receipt->payment_method) == 'bank transfer') {
-                                                            $methodIcon = 'fa-university';
-                                                            $methodClass = 'text-primary';
-                                                        }
-                                                    ?>
                                                     <div class="icon-circle bg-light me-2 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px; border-radius: 50%;">
-                                                        <i class="fas <?php echo $methodIcon; ?> <?php echo $methodClass; ?> fa-sm"></i>
+                                                        <?php 
+                                                        if(strtolower($receipt->payment_method) == 'cash') {
+                                                            echo '<i class="bi bi-cash text-success fa-sm"></i>';
+                                                        } elseif(strtolower($receipt->payment_method) == 'gcash') {
+                                                            echo '<i class="bi bi-phone text-info fa-sm"></i>';
+                                                        } elseif(strtolower($receipt->payment_method) == 'bank transfer') {
+                                                            echo '<i class="bi bi-bank text-primary fa-sm"></i>';
+                                                        } else {
+                                                            echo '<i class="bi bi-credit-card text-secondary fa-sm"></i>';
+                                                        }
+                                                        ?>
                                                     </div>
                                                     <p class="text-xs font-weight-bold mb-0"><?php echo $receipt->payment_method; ?></p>
                                                 </div>
@@ -155,14 +153,11 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <div class="btn-group">
-                                                    <a href="<?php echo URLROOT; ?>/treasurer/receipt/<?php echo $receipt->id; ?>" class="btn btn-sm btn-outline-primary" target="_blank" data-bs-toggle="tooltip" title="View Receipt">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
                                                     <a href="<?php echo URLROOT; ?>/treasurer/generateReceipt/<?php echo $receipt->id; ?>" class="btn btn-sm btn-outline-success" data-bs-toggle="tooltip" title="Download PDF">
-                                                        <i class="fas fa-file-pdf"></i>
+                                                        <i class="bi bi-file-pdf"></i>
                                                     </a>
                                                     <button type="button" class="btn btn-sm btn-outline-secondary print-receipt" data-id="<?php echo $receipt->id; ?>" data-bs-toggle="tooltip" title="Print Receipt">
-                                                        <i class="fas fa-print"></i>
+                                                        <i class="bi bi-printer"></i>
                                                     </button>
                                                 </div>
                                             </td>

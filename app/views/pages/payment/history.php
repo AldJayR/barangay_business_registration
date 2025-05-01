@@ -30,7 +30,7 @@
                                 <label for="statusFilter" class="form-label text-xs text-uppercase text-muted fw-semibold">Payment Status</label>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text bg-white border-end-0">
-                                        <i class="fas fa-filter text-primary"></i>
+                                        <i class="bi bi-funnel-fill text-primary"></i>
                                     </span>
                                     <select id="statusFilter" class="form-select form-select-sm border-start-0 ps-0 shadow-none">
                                         <option value="">All Statuses</option>
@@ -44,7 +44,7 @@
                                 <label for="dateFilter" class="form-label text-xs text-uppercase text-muted fw-semibold">Date Range</label>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text bg-white border-end-0">
-                                        <i class="fas fa-calendar-alt text-primary"></i>
+                                        <i class="bi bi-calendar-event text-primary"></i>
                                     </span>
                                     <select id="dateFilter" class="form-select form-select-sm border-start-0 ps-0 shadow-none">
                                         <option value="">All Time</option>
@@ -60,7 +60,7 @@
                                 <label for="businessFilter" class="form-label text-xs text-uppercase text-muted fw-semibold">Business Name</label>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text bg-white border-end-0">
-                                        <i class="fas fa-search text-primary"></i>
+                                        <i class="bi bi-search text-primary"></i>
                                     </span>
                                     <input type="text" id="businessFilter" class="form-control form-control-sm border-start-0 ps-0 shadow-none" placeholder="Search business...">
                                 </div>
@@ -133,19 +133,19 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <?php 
-                                                        $methodIcon = 'fa-money-bill';
+                                                        $methodIcon = 'bi-cash';
                                                         $methodClass = 'text-success';
                                                         
                                                         if(strtolower($payment->payment_method) == 'gcash') {
-                                                            $methodIcon = 'fa-mobile-alt';
+                                                            $methodIcon = 'bi-phone';
                                                             $methodClass = 'text-info';
                                                         } elseif(strtolower($payment->payment_method) == 'bank transfer') {
-                                                            $methodIcon = 'fa-university';
+                                                            $methodIcon = 'bi-bank';
                                                             $methodClass = 'text-primary';
                                                         }
                                                     ?>
                                                     <div class="icon-circle bg-light me-2 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px; border-radius: 50%;">
-                                                        <i class="fas <?php echo $methodIcon; ?> <?php echo $methodClass; ?> fa-sm"></i>
+                                                        <i class="bi <?php echo $methodIcon; ?> <?php echo $methodClass; ?> fa-sm"></i>
                                                     </div>
                                                     <p class="text-xs font-weight-bold mb-0"><?php echo $payment->payment_method; ?></p>
                                                 </div>
@@ -159,32 +159,27 @@
                                             <td>
                                                 <?php 
                                                     $statusClass = 'bg-warning bg-opacity-10 text-warning';
-                                                    $statusIcon = 'fa-clock';
+                                                    $statusIcon = 'bi-clock';
                                                     
                                                     if(strtolower($payment->payment_status) == 'verified') {
                                                         $statusClass = 'bg-success bg-opacity-10 text-success';
-                                                        $statusIcon = 'fa-check-circle';
+                                                        $statusIcon = 'bi-check-circle';
                                                     } elseif(strtolower($payment->payment_status) == 'rejected') {
                                                         $statusClass = 'bg-danger bg-opacity-10 text-danger';
-                                                        $statusIcon = 'fa-times-circle';
+                                                        $statusIcon = 'bi-x-circle';
                                                     }
                                                 ?>
                                                 <span class="badge <?php echo $statusClass; ?> rounded-pill px-3 py-2">
-                                                    <i class="fas <?php echo $statusIcon; ?> me-1"></i>
+                                                    <i class="bi <?php echo $statusIcon; ?> me-1"></i>
                                                     <?php echo $payment->payment_status; ?>
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <div class="btn-group">
-                                                    <!-- View Details Button -->
-                                                    <a href="<?php echo URLROOT; ?>/payment/view/<?php echo $payment->id; ?>" class="btn btn-sm btn-primary me-1" title="View Details">
-                                                        <i class="fas fa-eye me-1"></i><span class="d-none d-lg-inline">View</span>
-                                                    </a>
-                                                    
                                                     <!-- Print Receipt Button (Verified payments only) -->
                                                     <?php if(strtolower($payment->payment_status) == 'verified') : ?>
-                                                    <a href="#" class="btn btn-sm btn-success me-1 print-receipt" data-id="<?php echo $payment->id; ?>" title="Print Receipt">
-                                                        <i class="fas fa-print me-1"></i><span class="d-none d-lg-inline">Receipt</span>
+                                                    <a href="#" class="btn btn-sm btn-outline-primary print-receipt" data-id="<?php echo $payment->id; ?>" title="Print Receipt">
+                                                        <i class="bi bi-printer me-1"></i><span class="d-none d-lg-inline">Print Receipt</span>
                                                     </a>
                                                     <?php endif; ?>
                                                     
@@ -193,14 +188,14 @@
                                                              (strtolower($payment->payment_status) == 'pending' && (($_SESSION['user_role'] === 'admin') || ($_SESSION['user_role'] === 'treasurer')))) : ?>
                                                     <div class="dropdown">
                                                         <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="fas fa-ellipsis-v"></i>
+                                                            <i class="bi bi-three-dots"></i>
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
                                                             <?php if(strtolower($payment->payment_status) == 'pending' && ($_SESSION['user_role'] === 'business_owner')) : ?>
                                                             <li>
                                                                 <a href="<?php echo URLROOT; ?>/payment/cancel/<?php echo $payment->id; ?>" class="dropdown-item py-2 px-3 text-danger" 
                                                                    onclick="return confirm('Are you sure you want to cancel this payment?');">
-                                                                    <i class="fas fa-times me-2"></i> Cancel Payment
+                                                                    <i class="bi bi-x me-2"></i> Cancel Payment
                                                                 </a>
                                                             </li>
                                                             <?php endif; ?>
@@ -209,7 +204,7 @@
                                                                 <form method="post" action="<?php echo URLROOT; ?>/payment/verify/<?php echo $payment->id; ?>" style="display:inline;">
                                                                     <input type="hidden" name="status" value="Verified">
                                                                     <button type="submit" class="dropdown-item py-2 px-3 text-success" onclick="return confirm('Approve this payment?');">
-                                                                        <i class="fas fa-check-circle me-2"></i> Approve
+                                                                        <i class="bi bi-check-circle me-2"></i> Approve
                                                                     </button>
                                                                 </form>
                                                             </li>
@@ -217,7 +212,7 @@
                                                                 <form method="post" action="<?php echo URLROOT; ?>/payment/verify/<?php echo $payment->id; ?>" style="display:inline;">
                                                                     <input type="hidden" name="status" value="Rejected">
                                                                     <button type="submit" class="dropdown-item py-2 px-3 text-danger" onclick="return confirm('Reject this payment?');">
-                                                                        <i class="fas fa-times-circle me-2"></i> Reject
+                                                                        <i class="bi bi-x-circle me-2"></i> Reject
                                                                     </button>
                                                                 </form>
                                                             </li>
@@ -236,12 +231,12 @@
                         <!-- No results message (initially hidden) -->
                         <div id="noResultsMessage" class="text-center py-5 d-none">
                             <div class="mb-3">
-                                <i class="fas fa-search fa-3x text-secondary opacity-50"></i>
+                                <i class="bi bi-search fa-3x text-secondary opacity-50"></i>
                             </div>
                             <h5 class="text-secondary mt-3">No matching payments found</h5>
                             <p class="text-muted">Try adjusting your filters to find what you're looking for.</p>
                             <button type="button" id="clearFiltersAlt" class="btn btn-sm btn-outline-primary mt-2">
-                                <i class="fas fa-sync-alt me-1"></i> Clear Filters
+                                <i class="bi bi-arrow-repeat me-1"></i> Clear Filters
                             </button>
                         </div>
                         
@@ -264,13 +259,13 @@
                                 <ul class="pagination pagination-sm justify-content-end mb-0">
                                     <li class="page-item disabled" id="prevPage">
                                         <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                            <i class="fas fa-chevron-left"></i> Previous
+                                            <i class="bi bi-chevron-left"></i> Previous
                                         </a>
                                     </li>
                                     <li class="page-item active"><a class="page-link" href="#">1</a></li>
                                     <li class="page-item disabled" id="nextPage">
                                         <a class="page-link" href="#">
-                                            Next <i class="fas fa-chevron-right"></i>
+                                            Next <i class="bi bi-chevron-right"></i>
                                         </a>
                                     </li>
                                 </ul>

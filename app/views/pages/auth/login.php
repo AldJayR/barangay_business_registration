@@ -42,7 +42,7 @@ require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/core/functions.php
                     <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
                     <input type="password"
                            class="form-control <?= isset($errors['password']) ? 'is-invalid' : ''; ?>"
-                           id="password"
+                           id="password-input"
                            name="password"
                            placeholder="Enter your password"
                            required>
@@ -88,7 +88,7 @@ require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/core/functions.php
 <script>
     // Toggle password visibility
     document.getElementById('togglePassword').addEventListener('click', function() {
-        const passwordInput = document.getElementById('password');
+        const passwordInput = document.getElementById('password-input');
         const icon = this.querySelector('i');
         
         if (passwordInput.type === 'password') {

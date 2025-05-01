@@ -50,6 +50,29 @@ class SessionHelper {
     }
 
     /**
+     * Retrieves a flash message by type and removes it from the session.
+     *
+     * @param string $type The type of message.
+     * @return string|null The message or null if none.
+     */
+    public static function getFlash(string $type): ?string {
+        // Ensure session is started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (isset($_SESSION[self::FLASH_KEY][$type])) {
+            $message = $_SESSION[self::FLASH_KEY][$type];
+            unset($_SESSION[self::FLASH_KEY][$type]);
+            // Clear flash array if empty
+            if (empty($_SESSION[self::FLASH_KEY])) {
+                unset($_SESSION[self::FLASH_KEY]);
+            }
+            return $message;
+        }
+        return null;
+    }
+
+    /**
      * Checks if a specific type of flash message exists.
      *
      * @param string $type The type of message to check for.

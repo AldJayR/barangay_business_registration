@@ -37,7 +37,7 @@ require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/core/functions.php
                         <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
                         <input type="password"
                                class="form-control <?= isset($errors['password']) ? 'is-invalid' : ''; ?>"
-                               id="password"
+                               id="password-input"
                                name="password"
                                placeholder="Min. 6 characters"
                                required>
@@ -165,7 +165,7 @@ require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/core/functions.php
 <script>
     // Toggle password visibility for password field
     document.getElementById('togglePassword').addEventListener('click', function() {
-        const passwordInput = document.getElementById('password');
+        const passwordInput = document.getElementById('password-input');
         const icon = this.querySelector('i');
         
         if (passwordInput.type === 'password') {
@@ -181,7 +181,7 @@ require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/core/functions.php
 
     // Form validation on submit
     document.querySelector('form').addEventListener('submit', function(event) {
-        const password = document.getElementById('password').value;
+        const password = document.getElementById('password-input').value;
         const confirmPassword = document.getElementById('confirm_password').value;
         
         // Check if passwords match on client-side (in addition to server-side validation)

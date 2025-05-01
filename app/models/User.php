@@ -384,7 +384,47 @@ class User {
         return $this->db->execute();
     }
 
-    // Add other methods later: updateDetails, updatePassword, etc.
+    /**
+     * Password strength validation for registration and password change
+     *
+     * @param string $password
+     * @param array $contextWords (e.g. username, email, first/last name)
+     * @return bool|string True if strong, otherwise error message
+     */
+    public function validatePasswordStrength($password, $contextWords = []) {
+        // Length check
+        if (mb_strlen($password) < 8) {
+            return 'Password must be at least 8 characters.';
+        }
+        if (mb_strlen($password) > 64) {
+            return 'Password must not exceed 64 characters.';
+        }
+        // Allow all printable ASCII and Unicode symbols (no control chars)
+        if (!preg_match('/^[\P{C}]+$/u', $password)) {
+            return 'Password contains invalid characters.';
+        }
+        // Check for dictionary/breached passwords
+        $dictPath = __DIR__ . '/../helpers/common_passwords.txt';
+        if (file_exists($dictPath)) {
+            $dictionary = file($dictPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            foreach ($dictionary as $word) {
+                if ($word && stripos($password, $word) !== false) {
+                    return 'Password is too common or easily guessed.';
+                }
+            }
+        }
+        // Check for repeated sequences (3+)
+        if (preg_match('/(.)\\1{2,}/u', $password)) {
+            return 'Password contains repeated characters or sequences.';
+        }
+        // Check for context-specific words
+        foreach ($contextWords as $word) {
+            if ($word && stripos($password, $word) !== false) {
+                return 'Password should not contain your personal information.';
+            }
+        }
+        return true;
+    }
 
 }
 ?>

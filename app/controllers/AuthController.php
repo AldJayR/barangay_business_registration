@@ -380,10 +380,20 @@ class AuthController extends Controller {
         }
         if (empty($data['password'])) {
             $data['errors']['password'] = 'Password is required';
-        } elseif (strlen($data['password']) < 6) {
-            $data['errors']['password'] = 'Password must be at least 6 characters';
         } elseif ($data['password'] !== $data['confirm_password']) {
             $data['errors']['confirm_password'] = 'Passwords do not match';
+        } else {
+            // Password policy enforcement
+            $contextWords = [
+                $data['username'],
+                $data['first_name'],
+                $data['last_name'],
+                $data['email']
+            ];
+            $passwordCheck = $this->userModel->validatePasswordStrength($data['password'], $contextWords);
+            if ($passwordCheck !== true) {
+                $data['errors']['password'] = $passwordCheck;
+            }
         }
         if (empty($data['errors'])) {
             $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
